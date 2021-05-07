@@ -1,6 +1,7 @@
 package br.com.zupacademy.proposta.novaproposta;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -38,4 +39,5 @@ public class PropostaRequest {
 		return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario);
 	}
 
+	
 }
