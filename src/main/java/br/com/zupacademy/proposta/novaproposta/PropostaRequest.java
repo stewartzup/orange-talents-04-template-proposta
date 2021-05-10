@@ -1,8 +1,9 @@
 package br.com.zupacademy.proposta.novaproposta;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -24,20 +25,22 @@ public class PropostaRequest {
 	@NotNull
 	@Positive
 	public BigDecimal salario;
+	@Enumerated(EnumType.STRING)
+	public StatusProposta status;
 
 	public PropostaRequest(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
-			@NotBlank String endereco, @Positive @NotNull BigDecimal salario) {
+			@NotBlank String endereco, @NotNull @Positive BigDecimal salario, StatusProposta status) {
 		super();
 		this.documento = documento;
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+		this.status = status;
 	}
 
 	public Proposta converterToModel() {
-		return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario);
+		return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario, this.status);
 	}
 
-	
 }

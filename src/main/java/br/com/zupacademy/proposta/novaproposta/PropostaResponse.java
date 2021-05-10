@@ -2,6 +2,9 @@ package br.com.zupacademy.proposta.novaproposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 
 public class PropostaResponse {
 
@@ -10,6 +13,8 @@ public class PropostaResponse {
 	public String nome;
 	public String endereco;
 	public BigDecimal salario;
+	@Enumerated(EnumType.STRING)
+	public StatusProposta status;
 	
 	public PropostaResponse(Proposta proposta) {
 		this.documento = proposta.getDocumento();
@@ -17,6 +22,8 @@ public class PropostaResponse {
 		this.nome = proposta.getNome();
 		this.endereco = proposta.getEndereco();
 		this.salario = proposta.getSalario();
+		this.status = proposta.getStatus();
+		
 	}
 
 	public String getDocumento() {
@@ -38,6 +45,12 @@ public class PropostaResponse {
 	public BigDecimal getSalario() {
 		return salario;
 	}
+
+	public StatusProposta getStatus() {
+		return status;
+	}
+
+	
 	
 	
 }
