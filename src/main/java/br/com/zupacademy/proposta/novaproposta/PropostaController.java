@@ -1,7 +1,7 @@
 package br.com.zupacademy.proposta.novaproposta;
 
 import java.net.URI;
-
+import java.util.Iterator;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,13 +9,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.zupacademy.proposta.feign.cartao.DadosCartaoRequest;
+import br.com.zupacademy.proposta.feign.cartao.NumeroCartaoResponse;
+import br.com.zupacademy.proposta.feign.cartao.RelacionaCartaoClient;
 import br.com.zupacademy.proposta.feign.restricao.AnaliseRestricaoClient;
 import br.com.zupacademy.proposta.feign.restricao.AnaliseRestricaoRequest;
 import feign.FeignException;
@@ -30,26 +34,29 @@ public class PropostaController {
 	@Autowired
 	public PropostaRepository propostaRepository;
 
+	@Autowired
+	public RelacionaCartaoClient relacionaCartao;
+
 	@PostMapping
 	public ResponseEntity<PropostaResponse> cadastrarAutor(@RequestBody @Valid PropostaRequest request,
 			UriComponentsBuilder uriBuilder) {
 		Proposta proposta = request.converterToModel();
 		Optional<Proposta> verificaPropostaUnica = propostaRepository.findByDocumento(request.documento);
-
+		
 		if (!verificaPropostaUnica.isPresent()) {
 			propostaRepository.save(proposta);
-
 			try {
 				analiseCliente.analisaRestricao(new AnaliseRestricaoRequest(proposta));
 				proposta.setStatus(StatusProposta.ELEGIVEL);
+			}
 
-			} catch (FeignException e) {
+			catch (FeignException e) {
 				if (e.status() == 422)
 					proposta.setStatus(StatusProposta.NAO_ELEGIVEL);
 				else
 					throw e;
 			}
-
+			propostaRepository.save(proposta);
 			URI uri = uriBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
 			return ResponseEntity.created(uri).body(new PropostaResponse(proposta));
 		}

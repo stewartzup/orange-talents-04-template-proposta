@@ -2,6 +2,7 @@ package br.com.zupacademy.proposta.novaproposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
@@ -14,6 +15,7 @@ public class PropostaRequest {
 
 	@NotBlank
 	@VerificaCpfCnpj
+	@Column(unique=true)
 	public String documento;
 	@NotBlank
 	@Email
@@ -27,6 +29,7 @@ public class PropostaRequest {
 	public BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	public StatusProposta status;
+	
 
 	public PropostaRequest(@NotBlank String documento, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String endereco, @NotNull @Positive BigDecimal salario, StatusProposta status) {
