@@ -110,7 +110,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-     - prometheus-volume:/etc/prometheus/
+      - prometheus-volume:/etc/prometheus/
     network_mode: bridge
     ports:
       - "9090:9090"
@@ -125,6 +125,31 @@ services:
     depends_on:
       - prometheus
 
+  proposta:
+    depends_on:
+      - mysql
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: proposta
+    container_name: proposta
+    ports:
+      - "8080:8080"
+    environment:
+      BD_URL: jdbc:mysql://mysql:3306/proposta_desafio
+      FINANCEIRO_DOMINIO: http://analise:9999/api/solicitacao
+      CARTAO_DOMINIO: http://contas:8888/api/cartoes
+  mysql:
+    image: 'mysql:5.7'
+    volumes:
+      - volume-mysql:/var/lib/mysql
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 33716242ste
+      MYSQL_DATABASE: proposta_desafio
+
   vault:
     image: vault:1.5.3
     ports:
@@ -138,3 +163,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  volume-mysql:

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.alura.forum.controller.dto.DetalhesDoTopicoDto;
+import br.com.alura.forum.modelo.Topico;
 import br.com.zupacademy.proposta.feign.cartao.DadosCartaoRequest;
 import br.com.zupacademy.proposta.feign.cartao.NumeroCartaoResponse;
 import br.com.zupacademy.proposta.feign.cartao.RelacionaCartaoClient;
@@ -42,7 +44,7 @@ public class PropostaController {
 			UriComponentsBuilder uriBuilder) {
 		Proposta proposta = request.converterToModel();
 		Optional<Proposta> verificaPropostaUnica = propostaRepository.findByDocumento(request.documento);
-		
+
 		if (!verificaPropostaUnica.isPresent()) {
 			propostaRepository.save(proposta);
 			try {
@@ -63,4 +65,16 @@ public class PropostaController {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
 
 	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<PropostaResponse> detalhar(@PathVariable @Valid Long id) {
+		Optional<Proposta> procuraProposta = propostaRepository.findById(id);
+		if (procuraProposta.isPresent()) {
+			return ResponseEntity.ok(new PropostaResponse(procuraProposta.get()));
+		}
+
+		return ResponseEntity.notFound().build();
+
+	}
+
 }
