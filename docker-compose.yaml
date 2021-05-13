@@ -127,7 +127,7 @@ services:
 
   proposta:
     depends_on:
-      - mysql
+      - mysql-proposta
     restart: always
     build:
       dockerfile: Dockerfile
@@ -137,17 +137,18 @@ services:
     ports:
       - "8080:8080"
     environment:
-      BD_URL: jdbc:mysql://mysql:3306/proposta_desafio
+      BD_URL: jdbc:mysql://mysql-proposta:3306/proposta_desafio
       FINANCEIRO_DOMINIO: http://analise:9999/api/solicitacao
       CARTAO_DOMINIO: http://contas:8888/api/cartoes
-  mysql:
+      DB_PASSWORD: root
+  mysql-proposta:
     image: 'mysql:5.7'
     volumes:
       - volume-mysql:/var/lib/mysql
     ports:
-      - 3309:3306
+      - 3305:3306
     environment:
-      MYSQL_ROOT_PASSWORD: 33716242ste
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: proposta_desafio
 
   vault:
