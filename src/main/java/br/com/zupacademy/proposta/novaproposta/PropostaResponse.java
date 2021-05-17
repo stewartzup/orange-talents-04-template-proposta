@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import br.com.zupacademy.proposta.feign.cartao.Cartao;
+
 
 public class PropostaResponse {
 
@@ -15,6 +17,7 @@ public class PropostaResponse {
 	public BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	public StatusProposta status;
+	 private Cartao cartao;
 	
 	public PropostaResponse(Proposta proposta) {
 		this.documento = proposta.getDocumento();
@@ -23,6 +26,7 @@ public class PropostaResponse {
 		this.endereco = proposta.getEndereco();
 		this.salario = proposta.getSalario();
 		this.status = proposta.getStatus();
+		 this.cartao = proposta.getCartao();
 		
 	}
 
@@ -49,7 +53,10 @@ public class PropostaResponse {
 	public StatusProposta getStatus() {
 		return status;
 	}
-
+	public Cartao getCartao() {
+        return cartao;
+    }
+	
 	
 	
 	

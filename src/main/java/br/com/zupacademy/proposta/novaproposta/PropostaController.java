@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import br.com.zupacademy.proposta.feign.cartao.CartaoRepository;
 import br.com.zupacademy.proposta.feign.cartao.DadosCartaoRequest;
 import br.com.zupacademy.proposta.feign.cartao.NumeroCartaoResponse;
 import br.com.zupacademy.proposta.feign.cartao.RelacionaCartaoClient;
@@ -35,6 +37,9 @@ public class PropostaController {
 
 	@Autowired
 	public RelacionaCartaoClient relacionaCartao;
+	
+	@Autowired
+	public CartaoRepository cartaoRepository;
 
 	@PostMapping
 	public ResponseEntity<PropostaResponse> cadastrarAutor(@RequestBody @Valid PropostaRequest request,

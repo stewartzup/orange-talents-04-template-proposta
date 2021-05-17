@@ -2,6 +2,7 @@ package br.com.zupacademy.proposta.novaproposta;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,11 +10,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 import br.com.zupacademy.proposta.annotations.VerificaCpfCnpj;
+import br.com.zupacademy.proposta.feign.cartao.Cartao;
 
 @Entity
 public class Proposta {
@@ -23,7 +27,7 @@ public class Proposta {
 	public Long id;
 	@NotBlank
 	@VerificaCpfCnpj
-	@Column(unique=true)
+	@Column(unique = true)
 	public String documento;
 	@NotBlank
 	@Email
@@ -38,6 +42,8 @@ public class Proposta {
 	@Enumerated(EnumType.STRING)
 	public StatusProposta status;
 	public String numeroCartao;
+	
+	private Cartao cartao;
 
 	@Deprecated
 	public Proposta() {
@@ -53,7 +59,7 @@ public class Proposta {
 		this.endereco = endereco;
 		this.salario = salario;
 		this.status = status;
-		
+
 	}
 
 	public Long getId() {
@@ -92,8 +98,15 @@ public class Proposta {
 		return numeroCartao;
 	}
 
-	public void setNumeroCartao(String numeroCartao) {
-		this.numeroCartao = numeroCartao;
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
+	}
+	public void associaCartao(Cartao cartao) {
+		this.cartao = cartao;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import br.com.zupacademy.proposta.novaproposta.Proposta;
 public class DadosCartaoRequest {
 	
 	private String idProposta;
+	
 
 	public DadosCartaoRequest(Proposta proposta) {
 		this.idProposta = proposta.getId().toString();
