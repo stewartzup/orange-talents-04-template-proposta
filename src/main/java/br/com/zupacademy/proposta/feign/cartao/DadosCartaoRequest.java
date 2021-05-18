@@ -6,6 +6,7 @@ public class DadosCartaoRequest {
 	
 	private String idProposta;
 	
+	
 
 	public DadosCartaoRequest(Proposta proposta) {
 		this.idProposta = proposta.getId().toString();

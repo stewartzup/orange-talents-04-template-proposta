@@ -4,14 +4,16 @@ import br.com.zupacademy.proposta.feign.cartao.Cartao;
 
 import java.util.Base64;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BiometriaRequest {
     public String fingerPrint;
 
     @Deprecated
     public BiometriaRequest() {
     }
-
-    public BiometriaRequest(String fingerPrint) {
+    
+    public BiometriaRequest(@JsonProperty String fingerPrint) {
         this.fingerPrint = fingerPrint;
     }
 
@@ -23,11 +25,14 @@ public class BiometriaRequest {
         this.fingerPrint = fingerPrint;
     }
 
-    public String converteParaBase64() {
-        return Base64.getEncoder().encodeToString(fingerPrint.getBytes());
-    }
-
     public Biometria toModel(Cartao cartao) {
-        return new Biometria(cartao, converteParaBase64());
+        return new Biometria(cartao, fingerPrint);
+    }
+    
+    public static String decodeURL(String fingerPrint) {
+
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(fingerPrint);
+        return new String(decodedBytes);
+
     }
 }

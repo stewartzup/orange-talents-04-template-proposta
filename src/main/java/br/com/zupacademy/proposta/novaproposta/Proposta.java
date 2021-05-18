@@ -41,8 +41,8 @@ public class Proposta {
 	public BigDecimal salario;
 	@Enumerated(EnumType.STRING)
 	public StatusProposta status;
-	public String numeroCartao;
-	
+	// public String numeroCartao;
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Cartao cartao;
 
 	@Deprecated
@@ -94,10 +94,6 @@ public class Proposta {
 		this.status = status;
 	}
 
-	public String getNumeroCartao() {
-		return numeroCartao;
-	}
-
 	public Cartao getCartao() {
 		return cartao;
 	}
@@ -105,6 +101,7 @@ public class Proposta {
 	public void setCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
+
 	public void associaCartao(Cartao cartao) {
 		this.cartao = cartao;
 	}
@@ -112,7 +109,7 @@ public class Proposta {
 	@Override
 	public String toString() {
 		return "Proposta [id=" + id + ", documento=" + documento + ", email=" + email + ", nome=" + nome + ", endereco="
-				+ endereco + ", salario=" + salario + ", status=" + status + "]" + numeroCartao + "]";
+				+ endereco + ", salario=" + salario + ", status=" + status + "]" + cartao + "]";
 	}
 
 }
