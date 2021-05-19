@@ -61,6 +61,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
+      TZ: America/Fortaleza
 
   analise:
     image: 'zupacademy/analise-financeira'
@@ -137,7 +138,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      BD_URL: jdbc:mysql://mysql-proposta:3306/proposta_desafio
+      BD_URL: jdbc:mysql://mysql-proposta:3306/proposta_desafio?createDatabaseIfNotExist=true&serverTimezone=UTC
       FINANCEIRO_DOMINIO: http://analise:9999/api/solicitacao
       CARTAO_DOMINIO: http://contas:8888/api/cartoes
       DB_PASSWORD: root
