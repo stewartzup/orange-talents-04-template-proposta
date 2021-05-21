@@ -2,6 +2,7 @@ package br.com.zupacademy.proposta.feign.cartao;
 
 import javax.persistence.*;
 import br.com.zupacademy.proposta.novaproposta.Proposta;
+import br.com.zupacademy.proposta.novaproposta.StatusProposta;
 
 @Entity
 public class Cartao {
@@ -9,6 +10,8 @@ public class Cartao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	public String numero;
+	@Enumerated(EnumType.STRING)
+	public StatusCartaoBloqueio statusCartaoBloqueio = StatusCartaoBloqueio.ATIVO;
 
 	@Deprecated
 	public Cartao() {
@@ -25,5 +28,14 @@ public class Cartao {
 	public Long getId() {
 		return id;
 	}
+
+	public StatusCartaoBloqueio getStatusCartaoBloqueio() {
+		return statusCartaoBloqueio;
+	}
+
+	public void setStatusCartaoBloqueio(StatusCartaoBloqueio statusCartaoBloqueio) {
+		this.statusCartaoBloqueio = statusCartaoBloqueio;
+	}
+	
 
 }

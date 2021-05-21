@@ -15,7 +15,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorizeRequests -> authorizeRequests  
 				 .antMatchers(HttpMethod.GET, "/proposta/**").hasAuthority("SCOPE_proposta")
-                 //.antMatchers(HttpMethod.POST, "/proposta/**").hasAuthority("SCOPE_proposta")
+                 .antMatchers(HttpMethod.POST, "/proposta/**").hasAuthority("SCOPE_proposta")
                  .antMatchers(HttpMethod.GET, "/biometria/**").hasAuthority("SCOPE_proposta")
                  .antMatchers(HttpMethod.POST, "/biometria/**").hasAuthority("SCOPE_proposta")
                  .antMatchers(HttpMethod.GET, "/cartoes/**").hasAuthority("SCOPE_proposta")
