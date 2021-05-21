@@ -21,7 +21,6 @@ import br.com.zupacademy.proposta.feign.cartao.RelacionaCartaoClient;
 import br.com.zupacademy.proposta.feign.cartao.StatusCartaoBloqueio;
 import feign.FeignException;
 
-
 @RestController
 @RequestMapping("/bloqueios")
 public class BloqueioController {
@@ -38,13 +37,14 @@ public class BloqueioController {
 	public ResponseEntity<?> bloquearCartao(@PathVariable @NotNull Long id,
 			@RequestHeader("user-agent") String userAgent, @RequestHeader("host") String ipHost,
 			UriComponentsBuilder uriBuilder) {
-		
+
 		Optional<Cartao> procuraCartao = cartaoRepository.findById(id);
 		if (procuraCartao.isPresent()) {
 			Cartao cartao = procuraCartao.get();
-			try {
 
+			try {
 				cartaoClient.retornaSituacaoCartaoBloqueado(cartao.getNumero(), new BloqueioRequest());
+
 				Bloqueio bloqueio = new Bloqueio(procuraCartao.get(), ipHost, userAgent);
 				bloqueioRepository.save(bloqueio);
 				logger.info("{} {} {}", bloqueio.getCartao().numero, userAgent, bloqueio.getIpCliente());
