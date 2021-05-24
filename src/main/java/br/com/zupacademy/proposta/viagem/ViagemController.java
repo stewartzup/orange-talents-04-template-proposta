@@ -22,12 +22,11 @@ import br.com.zupacademy.proposta.feign.cartao.CartaoRepository;
 import br.com.zupacademy.proposta.feign.cartao.RelacionaCartaoClient;
 import br.com.zupacademy.proposta.feign.cartao.bloqueiocartao.BloqueioController;
 
-
 @RestController
 @RequestMapping("/api/viagem")
 public class ViagemController {
 
-	private Logger logger = LoggerFactory.getLogger(BloqueioController.class);
+	//private Logger logger = LoggerFactory.getLogger(BloqueioController.class);
 
 	@Autowired
 	public CartaoRepository cartaoRepository;
@@ -38,20 +37,27 @@ public class ViagemController {
 
 	@PostMapping("/{id}")
 	public ResponseEntity<?> avisarViagem(@PathVariable @NotNull Long id, @RequestHeader("user-agent") String userAgent,
-			@RequestHeader("host") String ipHost, UriComponentsBuilder uriBuilder, @RequestBody ViagemRequest request) {
+			@RequestHeader("host") String ipHost, UriComponentsBuilder uriBuilder,
+			@RequestBody @Valid @NotNull ViagemRequest request) {
 
 		Optional<Cartao> procuraCartao = cartaoRepository.findById(id);
 		if (procuraCartao.isPresent()) {
-			// Viagem viagem = request.toModel(procuraCartao.get(), ipHost, userAgent);
-			try {
-				Viagem viagem = request.toModel(procuraCartao.get(), ipHost, userAgent);
-				viagemRepository.save(viagem);
-				URI uri = uriBuilder.path("/viagem/{id}").buildAndExpand(procuraCartao.get().getId()).toUri();
-				return ResponseEntity.ok().build();
-			} catch (Exception e) {
-				return ResponseEntity.badRequest().build();
-			}
+			Cartao cartao = procuraCartao.get();
 
+			if (request.dataMaiorQueHoje(request.getDataTermino()) == true) {
+				try {
+					cartaoClient.retornaStatusAviso(cartao.getNumero(), request);
+					Viagem viagem = request.toModel(procuraCartao.get(), ipHost, userAgent);
+					viagemRepository.save(viagem);
+
+				} catch (Exception e) {
+					return ResponseEntity.badRequest().build();
+				}
+
+			} else return ResponseEntity.badRequest().build();
+
+			URI uri = uriBuilder.path("/avisos/{id}").buildAndExpand(procuraCartao.get().getId()).toUri();
+			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
 	}

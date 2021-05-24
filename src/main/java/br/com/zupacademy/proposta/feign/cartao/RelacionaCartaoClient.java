@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.zupacademy.proposta.feign.cartao.bloqueiocartao.BloqueioRequest;
 import br.com.zupacademy.proposta.feign.cartao.bloqueiocartao.BloqueioResponse;
+import br.com.zupacademy.proposta.viagem.ViagemRequest;
+import br.com.zupacademy.proposta.viagem.ViagemResponse;
 
 @FeignClient(name = "",value = "cartoes", url = "${cartao.dominio}")
 public interface RelacionaCartaoClient {
@@ -19,4 +21,7 @@ public interface RelacionaCartaoClient {
 
 	@RequestMapping(method = RequestMethod.POST,value = "/{id}/bloqueios", produces  = "application/json")
     public BloqueioResponse retornaSituacaoCartaoBloqueado(@PathVariable("id") String id,@RequestBody BloqueioRequest bloqueioRequest);
+	
+	@RequestMapping(method = RequestMethod.POST,value = "/{id}/avisos", produces  = "application/json")
+    public ViagemResponse retornaStatusAviso(@PathVariable("id") String id,@RequestBody ViagemRequest viagemResquest);
 }

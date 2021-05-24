@@ -1,7 +1,9 @@
 package br.com.zupacademy.proposta.viagem;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -70,8 +72,10 @@ public class Viagem {
 		return cartao;
 	}
 	
-	
-	
+	public boolean dataMenorQueHoje(LocalDate dataTermino) {
+	LocalDate hoje = LocalDate.now();
+	return dataTermino.compareTo(hoje) > 0;
+	}
 	
 }
 
