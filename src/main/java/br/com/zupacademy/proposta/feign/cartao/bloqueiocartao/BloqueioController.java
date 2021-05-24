@@ -26,6 +26,7 @@ import feign.FeignException;
 public class BloqueioController {
 
 	private Logger logger = LoggerFactory.getLogger(BloqueioController.class);
+	
 	@Autowired
 	public CartaoRepository cartaoRepository;
 	@Autowired
