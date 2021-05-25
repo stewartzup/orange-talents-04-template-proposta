@@ -30,7 +30,7 @@ public class PropostaAssociaCartaoScheduled {
 	@Scheduled(cron = "*/30 * * * * *")
 	public void buscaCartao() {
 		List<Proposta> propostaElegivel = propostaRepository.buscaPropostasElegiveisSemCartao();
-		logger.info("entrei no log");
+		//logger.info("entrei no log");
 		for (Proposta proposta : propostaElegivel) {
 			try {
 				NumeroCartaoResponse dadosCartao = relacionaCartao.getCartao(proposta.getId());

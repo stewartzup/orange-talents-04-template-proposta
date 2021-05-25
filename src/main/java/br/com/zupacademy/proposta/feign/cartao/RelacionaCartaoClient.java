@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.zupacademy.proposta.carteira.CarteiraRequest;
+import br.com.zupacademy.proposta.carteira.CarteiraResponse;
 import br.com.zupacademy.proposta.feign.cartao.bloqueiocartao.BloqueioRequest;
 import br.com.zupacademy.proposta.feign.cartao.bloqueiocartao.BloqueioResponse;
 import br.com.zupacademy.proposta.viagem.ViagemRequest;
@@ -24,4 +26,7 @@ public interface RelacionaCartaoClient {
 	
 	@RequestMapping(method = RequestMethod.POST,value = "/{id}/avisos", produces  = "application/json")
     public ViagemResponse retornaStatusAviso(@PathVariable("id") String id,@RequestBody ViagemRequest viagemResquest);
+	
+	@RequestMapping(method = RequestMethod.POST,value = "/{id}/carteiras", produces  = "application/json")
+    public CarteiraResponse retornaSituacaoCarteira(@PathVariable("id") String id,@RequestBody CarteiraRequest carteiraRequest);
 }

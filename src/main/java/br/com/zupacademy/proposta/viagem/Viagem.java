@@ -72,10 +72,7 @@ public class Viagem {
 		return cartao;
 	}
 	
-	public boolean dataMenorQueHoje(LocalDate dataTermino) {
-	LocalDate hoje = LocalDate.now();
-	return dataTermino.compareTo(hoje) > 0;
-	}
+	
 	
 }
 
