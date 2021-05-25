@@ -56,19 +56,14 @@ public class CarteiraController {
 
 		Carteira carteira = request.toModel(cartao);
 		if (procuraCartao.isPresent()) {
-
-			logger.info("antes");
 			carteiraRepository.save(carteira);
-			logger.info("dps");
 			try {
-				carteira.setCarteiraOpcao(CarteiraOpcao.SAMSUNG_PAY);
+				//carteira.setCarteiraOpcao(request.getCarteira());
 				carteiraRepository.save(carteira);
 
 			} catch (Exception e) {
-				logger.info("test 33");
 				return ResponseEntity.badRequest().build();
 			}
-			logger.info("test 2");
 			URI uri = uriBuilder.path("/carteira/{id}").buildAndExpand(procuraCartao.get().getId()).toUri();
 			return ResponseEntity.created(uri).build();
 		}
