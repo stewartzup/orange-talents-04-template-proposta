@@ -50,8 +50,8 @@ public class PropostaController {
 	public ResponseEntity<PropostaResponse> cadastrarAutor(@RequestBody @Valid PropostaRequest request,
 			UriComponentsBuilder uriBuilder) {
 
-		Span activeSpan = tracer.activeSpan();
-		activeSpan.setBaggageItem("user.email", "stewart.goncalves@zup.com.br");
+//		Span activeSpan = tracer.activeSpan();
+//		activeSpan.setBaggageItem("user.email", "stewart.goncalves@zup.com.br");
 
 		Proposta proposta = request.converterToModel();
 		Optional<Proposta> verificaPropostaUnica = propostaRepository.findByDocumento(request.documento);
