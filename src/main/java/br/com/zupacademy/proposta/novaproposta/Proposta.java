@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
+import br.com.zupacademy.proposta.annotations.CriptografaDocumento;
 import br.com.zupacademy.proposta.annotations.VerificaCpfCnpj;
 import br.com.zupacademy.proposta.feign.cartao.Cartao;
 
@@ -28,6 +30,7 @@ public class Proposta {
 	@NotBlank
 	@VerificaCpfCnpj
 	@Column(unique = true)
+	@Convert(converter = CriptografaDocumento.class)
 	public String documento;
 	@NotBlank
 	@Email

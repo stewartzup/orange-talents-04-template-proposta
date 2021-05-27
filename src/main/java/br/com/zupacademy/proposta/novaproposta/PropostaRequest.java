@@ -9,6 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import org.springframework.security.crypto.encrypt.Encryptors;
+
 import br.com.zupacademy.proposta.annotations.VerificaCpfCnpj;
 
 public class PropostaRequest {
@@ -45,5 +48,10 @@ public class PropostaRequest {
 	public Proposta converterToModel() {
 		return new Proposta(this.documento, this.email, this.nome, this.endereco, this.salario, this.status);
 	}
+	
+	 public Proposta converter(PropostaRepository propostaRepository) {
+       documento = Encryptors.text("${criptografia.password}", "7C8EF022EEC320E0").encrypt(documento);
+       return new Proposta(documento, email, nome, endereco, salario, status);
+   }
 
 }
